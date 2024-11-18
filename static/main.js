@@ -62,21 +62,17 @@ document.addEventListener("DOMContentLoaded", function(){
         if (parts.length == 2) return parts.pop().split(';').shift();
       }
 
-      const agregar = document.getElementById("agregar");
-      agregar.addEventListener("click", () => {
-        const f = document.getElementById("product-form");
-        const total = document.getElementById("total-purchase");
-
-        fetch('/guardar-producto', {
+      const guardarVenta = document.getElementById("guardarVenta");
+      guardarVenta.addEventListener("click", () => {
+        fetch('/guardarVenta', {
           method: 'POST',
-          headers: {
+          headers: {  
             'Content-Type': 'application/json',
             'X-CSRFToken': getCookie('csrftoken')
           },
           body: JSON.stringify({
-            'name': f['product-name'].value.trim(),
-            'quantity': f['product-quantity'].value,
-            'price': f['product-price'].value
+            'total': pagaTotal,
+            'productos': listaProductos
           })
         })
           .then(response => {
@@ -85,21 +81,40 @@ document.addEventListener("DOMContentLoaded", function(){
           })
           .then(data => {
             console.log("Datos recibidos:", data);
-            const table = document.getElementById("product-table-body");
-            table.innerHTML += `
-              <tr>
-                  <td>${data.name}</td>
-                  <td>${data.quantity}</td>
-                  <td>${data.price}</td>
-                  <td>${data.quantity * data.price}</td>
-              </tr>
-            `;
-            pagaTotal += data.quantity * data.price;
-            total.textContent = pagaTotal.toFixed(2);
-            listaProductos.push(data);
+            window.location.href = '/contado';
           })
           .catch(error => {
             console.error('Error:', error);
           });
+      })
+
+      const agregar = document.getElementById("agregar");
+      agregar.addEventListener("click", () => {
+        const f = document.getElementById("product-form");
+        const total = document.getElementById("total-purchase");
+
+        productName = f['product-name'].value.trim();
+        quantity = f['product-quantity'].value;
+        price = f['product-price'].value;
+
+          const table = document.getElementById("product-table-body");
+          table.innerHTML += `
+            <tr>
+                <td>${productName}</td>
+                <td>${quantity}</td>
+                <td>${price}</td>
+                <td>${quantity * price}</td>
+            </tr>
+          `;
+
+          pagaTotal += quantity * price;
+          total.textContent = pagaTotal.toFixed(2);
+          listaProductos.push({
+            'name': productName,
+            'quantity': quantity,
+            'price': price
+          });
+          console.log("Productos:", listaProductos);
+          
       });
 };

@@ -7,7 +7,7 @@ import pyodbc
 
 app = Flask(__name__)
 
-db = sessionmaker(bind=create_engine('sqlite:///PulperiaElPilar.db'))()
+db = sessionmaker(bind=create_engine('sqlite:///database.db'))()
 
 @app.route('/')
 def index():
@@ -29,20 +29,24 @@ def contado():
 def abonarCredito():
     return render_template('abonarCredito.html')
 
-@app.route('/guardar-producto', methods=['POST'])
+@app.route('/guardarVenta', methods=['POST'])
 def guardar_producto():
     try:
         data = json.loads(request.data)
-        name = data.get('name')
-        quantity = data.get('quantity', 0)
-        price = data.get('price', 0.0)
-        
-        #AQUI VA LA CONSULTA DE LA BASE DE DATOS
-        
-        return jsonify({'name': name, 'quantity': quantity, 'price': price}), 200
+        print("====================================")
+        total = float(data['total'])
+        print(total)
+        # print(data['productos'])
+        query = text("INSERT INTO Contado (total) VALUES (:total)")
+        db.execute(query, {'total': total})
+        db.commit()
+
+
+        return jsonify({'message': 'Producto guardado correctamente'}), 200
     except Exception as e:
         traceback.print_exc()
         return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)
