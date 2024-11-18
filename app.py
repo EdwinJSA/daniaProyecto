@@ -39,7 +39,6 @@ def guardar_producto():
         
         #AQUI VA LA CONSULTA DE LA BASE DE DATOS
         
-        
         return jsonify({'name': name, 'quantity': quantity, 'price': price}), 200
     except Exception as e:
         traceback.print_exc()

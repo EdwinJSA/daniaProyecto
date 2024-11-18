@@ -54,6 +54,8 @@ document.addEventListener("DOMContentLoaded", function(){
     // DOMContentLoaded  end
 
     window.onload = () => {
+      let pagaTotal = 0;
+      let listaProductos = [];
       function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -63,7 +65,8 @@ document.addEventListener("DOMContentLoaded", function(){
       const agregar = document.getElementById("agregar");
       agregar.addEventListener("click", () => {
         const f = document.getElementById("product-form");
-        
+        const total = document.getElementById("total-purchase");
+
         fetch('/guardar-producto', {
           method: 'POST',
           headers: {
@@ -91,6 +94,9 @@ document.addEventListener("DOMContentLoaded", function(){
                   <td>${data.quantity * data.price}</td>
               </tr>
             `;
+            pagaTotal += data.quantity * data.price;
+            total.textContent = pagaTotal.toFixed(2);
+            listaProductos.push(data);
           })
           .catch(error => {
             console.error('Error:', error);
