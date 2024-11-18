@@ -1,3 +1,12 @@
+/*background de index*/
+#inicioBackground{
+    height: 90vh;
+    background-image: url(../static/img/pilar.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 /* Aplica los mismos estilos de fondo y borde a todos los botones */
 .btn {
     background-color: #789342;

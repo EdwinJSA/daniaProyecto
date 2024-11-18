@@ -11,9 +11,10 @@
         </div>
     </div>
 
-    <!-- Formulario para agregar productos -->
-    <div class="card p-3 mb-3">
-        <div class="row">
+<!-- Formulario para agregar productos -->
+<div class="card p-3 mb-3">
+    <div class="row">
+        <form id="product-form">
             <div class="col-md-6">
                 <label for="product-name" class="form-label">Producto</label>
                 <input type="text" class="form-control" id="product-name" placeholder="Ingresa el nombre del producto">
@@ -26,16 +27,17 @@
                 <label for="product-price" class="form-label">Precio Unitario</label>
                 <input type="number" class="form-control" id="product-price" placeholder="Precio" min="0" step="0.01">
             </div>
-        </div>
-        <button class="btn btn-primary mt-3" onclick="addProduct()">Agregar Producto</button>
+            <button class="btn btn-primary mt-3" id="agregar" type="button">Agregar Producto</button>
+        </form>
     </div>
+</div>
 
     <!-- Tabla para mostrar los productos agregados -->
     <div class="card">
         <div class="card-body">
             <h5><strong>Productos Adquiridos</strong></h5>
             <div class="product-list">
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="product-table">
                     <thead>
                         <tr>
                             <th>Producto</th>
