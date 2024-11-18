@@ -29,6 +29,10 @@ def contado():
 def abonarCredito():
     return render_template('abonarCredito.html')
 
+@app.route('/productos')
+def productos():
+    return render_template('productos.html')
+
 @app.route('/guardar-producto', methods=['POST'])
 def guardar_producto():
     try:
